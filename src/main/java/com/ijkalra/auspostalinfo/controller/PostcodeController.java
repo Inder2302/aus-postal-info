@@ -1,5 +1,6 @@
 package com.ijkalra.auspostalinfo.controller;
 
+import com.ijkalra.auspostalinfo.exception.ResourceNotFoundException;
 import com.ijkalra.auspostalinfo.response.SuburbDetails;
 import com.ijkalra.auspostalinfo.service.PostalInfoService;
 import org.slf4j.Logger;
@@ -22,7 +23,13 @@ public class PostcodeController {
     @GetMapping("/{postcode}")
     public SuburbDetails getPostCodeInfo(@PathVariable("postcode") int postcode) {
         logger.info("Incoming request to get info for a post code");
-        return postalInfoService.getSuburbsByPostCode(postcode);
+        SuburbDetails suburbDetails = postalInfoService.getSuburbsByPostCode(postcode);
+        if(suburbDetails.isFound()) {
+            return suburbDetails;
+        }
+        else {
+            throw new ResourceNotFoundException("Post code: " + postcode + " not Found in database");
+        }
     }
 
 }

@@ -1,10 +1,10 @@
 package com.ijkalra.auspostalinfo.service;
 
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CacheEvictionService {
-
-    // Todo: These services can be called to clear out cached values on a Scheduled basis
 
     // evict all entries of postcode cache
     @CacheEvict(value = "postcodeCache", allEntries = true)

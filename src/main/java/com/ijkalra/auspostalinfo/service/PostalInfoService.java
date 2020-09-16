@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostalInfoService {
@@ -27,13 +28,13 @@ public class PostalInfoService {
 
         //lookup data in db
         logger.info("Fetch suburb info from database based on suburb name and state abbreviation");
-        Suburb suburb = suburbRepo.findBySuburbNameIgnoreCaseAndStateAbbrIgnoreCase(suburbName, stateAbbr);
+        Optional<Suburb> suburb = suburbRepo.findBySuburbNameIgnoreCaseAndStateAbbrIgnoreCase(suburbName, stateAbbr);
 
         //fill the response object with data from db
 
         // found = true -> if suburb !=null
-        if (suburb == null){
-            // we can as well throw an exception here and respond with HTTP error code 4xx
+        if (!suburb.isPresent()){
+            // we can as well throw an exception here and respond with HTTP error code 404
             logger.error("Suburb not found. Returning negative response to the caller");
             postCodeDetails.setFound(false);
             postCodeDetails.setPostcode(-1);
@@ -42,8 +43,8 @@ public class PostalInfoService {
         else {
             logger.info("Suburb found in database. Returning Response Entity to the caller");
             postCodeDetails.setFound(true);
-            postCodeDetails.setPostcode(suburb.getPostCode());
-            postCodeDetails.setSuburbName(suburb.getSuburbName());
+            postCodeDetails.setPostcode(suburb.get().getPostCode());
+            postCodeDetails.setSuburbName(suburb.get().getSuburbName());
         }
         return postCodeDetails;
     }
@@ -54,7 +55,6 @@ public class PostalInfoService {
 
         //look up in database via repository function
         logger.info("Lookup post code in database");
-
         List<Suburb> suburbsByPostCode = suburbRepo.findByPostCode(postcode);
 
         // loop in the list of suburbs found in db and set the full name of state

@@ -5,7 +5,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SuburbRepo extends JpaRepository<Suburb, String> {
@@ -14,5 +16,5 @@ public interface SuburbRepo extends JpaRepository<Suburb, String> {
     List<Suburb> findByPostCode(int postCode);
 
     @Cacheable(cacheNames="suburbsCache", key="#suburbName.concat('-').concat(#stateAbbr)", unless="#result == null")
-    Suburb findBySuburbNameIgnoreCaseAndStateAbbrIgnoreCase(String suburbName, String stateAbbr);
+    Optional<Suburb> findBySuburbNameIgnoreCaseAndStateAbbrIgnoreCase(String suburbName, String stateAbbr);
 }
