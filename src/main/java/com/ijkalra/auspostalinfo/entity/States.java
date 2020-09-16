@@ -1,6 +1,6 @@
 package com.ijkalra.auspostalinfo.entity;
 
-public enum State {
+public enum States {
     VIC("Victoria"),
     NSW("New South Wales"),
     ACT("Australian Capital Territory"),
@@ -12,7 +12,7 @@ public enum State {
 
     private String fullName;
 
-    State (String fullName) {
+    States(String fullName) {
         this.fullName = fullName;
     }
 
