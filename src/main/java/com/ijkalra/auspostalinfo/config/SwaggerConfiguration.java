@@ -17,7 +17,7 @@ public class SwaggerConfiguration {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .paths(PathSelectors.ant("/auspostalinfo/*"))
+                .paths(PathSelectors.ant("/auspostalinfo/**"))
                 .apis(RequestHandlerSelectors.basePackage("com.ijkalra"))
                 .build();
     }

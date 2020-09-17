@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/signup")
+@RestController
 public class SignUpController {
 
     Logger logger = LoggerFactory.getLogger(SignUpController.class);
@@ -24,7 +24,7 @@ public class SignUpController {
             notes = "Provide user details to add to the user database",
             response = Integer.class
     )
-    @PostMapping
+    @PostMapping("/signup")
     public int createUser(@RequestBody User user) {
         logger.info("Incoming request for signing up new user: {} - {}",user.getUsername(), user.getRoles());
         return signUpService.saveNewUser(user);
