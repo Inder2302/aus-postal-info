@@ -17,7 +17,7 @@ public class ScheduledFunctions {
 
     // clears cache on a scheduled basis so that we get updated data from DB
     // @Scheduled(fixedDelay = 300000)
-    public void clearBookCache(){
+    public void clearAllCache(){
         logger.info("Running scheduled job to clear Cached values");
         cacheEvictionService.evictPostCodeCacheValuesAll();
         cacheEvictionService.evictSuburbsCacheValuesAll();
