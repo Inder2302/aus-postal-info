@@ -15,10 +15,14 @@ public class SignUpService {
     @Autowired
     UserRepository userRepository;
 
+    // this bean is present in SecurityConfiguration class
+    // it returns BcryptPasswordEncoder
     @Autowired
     PasswordEncoder passwordEncoder;
 
     public int saveNewUser(User user) {
+        // this is sign up service
+        // encoding the password before it is saved to db
         logger.info("Encoding the password with Bcrypt encoder");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         logger.info("Saving new user to the database");

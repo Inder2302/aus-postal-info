@@ -20,6 +20,7 @@ public class CustomUserDetails implements UserDetails {
         this.userName = user.getUsername();
         this.password = user.getPassword();
         this.active = user.isActive();
+        // A user can have multiple roles separated by coma in database
         this.authorities = Arrays.stream(user.getRoles().split(","))
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList());

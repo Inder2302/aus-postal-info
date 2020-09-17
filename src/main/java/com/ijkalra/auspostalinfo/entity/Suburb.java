@@ -1,12 +1,12 @@
 package com.ijkalra.auspostalinfo.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.util.UUID;
 
 @Entity
@@ -37,6 +37,7 @@ public class Suburb {
 
     @PrePersist
     private void genId(){
+        // generate a uuid and assign to suburb id before persisting to db
         this.setSuburbId(UUID.randomUUID().toString());
     }
 }

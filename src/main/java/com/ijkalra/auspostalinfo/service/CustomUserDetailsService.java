@@ -17,6 +17,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    // this service bean is autowired in security configuration
+    // we need to override this method which is used by AuthenticationManager
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);

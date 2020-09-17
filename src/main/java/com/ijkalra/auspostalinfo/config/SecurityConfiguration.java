@@ -20,14 +20,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-/*        auth.inMemoryAuthentication()
-                .withUser("user1").password(passwordEncoder().encode("password1"))
-                .authorities("ROLE_USER");*/
+        // Provide the user details service to the AuthenticationManager so that it can get call the
+        // loadUserByUsername method on it
+        // we have autowired it so Spring will actually give our custom bean which implements UserDetailsService - CustomUserDetailsService
+        // which has overridden the loadUserByUsername
         auth.userDetailsService(userDetailsService);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // Disable csrf to allow call via postman tool else we will need csrf token
+        // use antMatchers to restrict access to url based on roles
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/suburb/newsuburb").hasRole("ADMIN")
@@ -38,12 +41,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic();
     }
 
-    // For password hashing
+    // Define a password encoder bean For password hashing
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-    // to disable security on H2. H2 has its own username password
+
+    //  disable security on H2. H2 has its own username password
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/h2/**");
