@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("/suburb")
 @RestController
 public class SuburbController {
@@ -32,7 +34,7 @@ public class SuburbController {
     }
 
     @PostMapping("/newsuburb")
-    public String createNewSuburbProfile(@RequestBody Suburb suburb) {
+    public String createNewSuburbProfile(@Valid @RequestBody Suburb suburb) {
         logger.info("Incoming request to create new suburb entry");
         String suburbId = postalInfoService.saveToDb(suburb);
         if (suburbId == null) {

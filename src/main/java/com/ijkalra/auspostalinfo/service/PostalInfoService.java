@@ -77,9 +77,11 @@ public class PostalInfoService {
         // Validate if the suburb+state combination is already there in DB
         // Todo: we can add more validations like a postcode in Victoria must be from a given range 3000-3999
         //  or certain postcodes can be marked as reserved and hence should not be used
-
-        if (suburbRepo.findBySuburbNameIgnoreCaseAndStateAbbrIgnoreCase(suburb.getSuburbName(), suburb.getStateAbbr()) == null){
-
+        if (suburbRepo.findBySuburbNameIgnoreCaseAndStateAbbrIgnoreCase(suburb.getSuburbName(), suburb.getStateAbbr()).isPresent()){
+            logger.info("Suburb already present in database");
+            return null;
+        }
+        else {
             logger.info("Suburb not present in db. Saving new suburb information...");
             // save Suburb with title case
             suburb.setSuburbName(StringUtils.capitalize(suburb.getSuburbName()));
@@ -89,10 +91,6 @@ public class PostalInfoService {
             suburbRepo.save(suburb);
             logger.info("Suburb Saved to db.");
             return suburb.getSuburbId();
-        }
-        else {
-            logger.info("Suburb already present in database");
-            return null;
         }
     }
 }
