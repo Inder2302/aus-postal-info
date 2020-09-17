@@ -3,6 +3,7 @@ package com.ijkalra.auspostalinfo.controller;
 import com.ijkalra.auspostalinfo.exception.ResourceNotFoundException;
 import com.ijkalra.auspostalinfo.response.SuburbDetails;
 import com.ijkalra.auspostalinfo.service.PostalInfoService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class PostcodeController {
     private PostalInfoService postalInfoService;
 
     @GetMapping("/{postcode}")
+    @ApiOperation(value = "finds suburb details by postcode",
+            notes = "Provide a postcode to lookup suburb information in database",
+            response = SuburbDetails.class
+    )
     public SuburbDetails getPostCodeInfo(@PathVariable("postcode") int postcode) {
         logger.info("Incoming request to get info for a post code");
         SuburbDetails suburbDetails = postalInfoService.getSuburbsByPostCode(postcode);

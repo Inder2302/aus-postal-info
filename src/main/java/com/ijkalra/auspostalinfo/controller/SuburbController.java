@@ -5,6 +5,7 @@ import com.ijkalra.auspostalinfo.exception.ResourceNotFoundException;
 import com.ijkalra.auspostalinfo.exception.SuburbAlreadyPresentException;
 import com.ijkalra.auspostalinfo.response.PostCodeDetails;
 import com.ijkalra.auspostalinfo.service.PostalInfoService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class SuburbController {
     private PostalInfoService postalInfoService;
 
     @GetMapping("/")
+    @ApiOperation(value = "finds post code for the suburb and state combination",
+            notes = "Provide suburb name and state abbreviation for lookup",
+            response = PostCodeDetails.class
+    )
     public PostCodeDetails getPostCodeBySuburbNameAndState(@RequestParam String suburbname, @RequestParam String stateabbr){
         logger.info("Incoming request to get postcode for suburb and state combination");
         PostCodeDetails postCodeDetails = postalInfoService.getPostCodeBySuburbName(suburbname, stateabbr);
@@ -33,6 +38,10 @@ public class SuburbController {
         }
     }
 
+    @ApiOperation(value = "Create a new suburb Entry",
+            notes = "Provide new suburb details to save to db",
+            response = String.class
+    )
     @PostMapping("/newsuburb")
     public String createNewSuburbProfile(@Valid @RequestBody Suburb suburb) {
         logger.info("Incoming request to create new suburb entry");
